@@ -25,7 +25,7 @@ public class MainController {
         FlightStates flightStates = RestConsumer.retrieveFlightStates();
         if (flightStates != null) {
             LocalDateTime date =
-                    LocalDateTime.ofInstant(Instant.ofEpochMilli(flightStates.getTime()), ZoneId.systemDefault());
+                    LocalDateTime.ofInstant(Instant.ofEpochSecond(flightStates.getTime()), ZoneId.systemDefault());
 
             model.addAttribute("time", date.toString());
             model.addAttribute("number", flightStates.getStates().size());
