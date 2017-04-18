@@ -24,6 +24,9 @@ public class StateVector implements Serializable {
 
     private Set<Integer> serials;
 
+    public StateVector() {
+    }
+
     public StateVector(String icao24) {
         this.icao24 = icao24;
         this.serials = null;

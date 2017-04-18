@@ -1,65 +1,43 @@
 <html>
 <head><title> FreeMarker Spring MVC Hello World</title>
 
-<style>
-body, input {
-	font-family: Calibri, Arial;
-	margin: 0px;
-	padding: 0px;
-}
-#header h2 {
-	color: white;
-	background-color: #3275A8;
-	height: 50px;
-	padding: 5px 0 0 5px;
-	font-size: 20px;
-}
-	
-.datatable {margin-bottom:5px;border:1px solid #eee;border-collapse:collapse;width:400px;max-width:100%;font-family:Calibri}
-.datatable th {padding:3px;border:1px solid #888;height:30px;background-color:#B2D487;text-align:center;vertical-align:middle;color:#444444}
-.datatable tr {border:1px solid #888}
-.datatable tr.odd {background-color:#eee}
-.datatable td {padding:2px;border:1px solid #888}
-#content { padding 5px; margin: 5px; text-align: center}
-
-fieldset { width: 300px; padding: 5px; margin-bottom: 0px; }
-legend { font-weight: bold; }
-</style>
-
 <body>
-<div id="header">
-<H2>
-	FreeMarker Spring MVC Hello World
-</H2>
-</div>
-
 <div id="content">
 
+    <h3>Time: ${time}</h3>
 
+    <h3>Total Number: ${number}</h3>
 
-	<h3>Time: ${time}</h3>
-	<h3>Number: ${number}</h3>
-  <#--<fieldset>-->
-  	<#--<legend>Add Car</legend>-->
-  <#--<form name="car" action="add" method="post">-->
-  	<#--Make : <input type="text" name="make" />	<br/>-->
-  	<#--Model: <input type="text" name="model" />	<br/>-->
-  	<#--<input type="submit" value="   Save   " />-->
-  <#--</form>-->
-  <#--</fieldset>-->
-  
-  <#--<br/>-->
-  <#--<table class="datatable">-->
-  	<#--<tr>-->
-  		<#--<th>icao24</th>  <th>originCountry</th>-->
-  	<#--</tr>-->
-    <#--<#list model["flights"] as flight>-->
-	  	<#--<tr>-->
-	  		<#--<td>${flight.icao24}</td> <td>${flight.originCountry}</td>-->
-	  	<#--</tr>-->
-    <#--</#list>-->
-  <#--</table>-->
+    <br/>
+    <table class="datatable">
+        <tr>
+            <th>Id</th>
+            <th>Origin Country</th>
+            <th>On Ground</th>
+            <th>Call Sign</th>
+            <th></th>
+        </tr>
+    <#list flights as flight>
+        <tr>
+                <form name="flightsFromOpenSky" action="persistFlight" method="post">
+                    <td><input type="text" name="icao24" value="${flight.icao24}"/></td>
+                    <td><input type="text" name="originCountry" value="${flight.originCountry}"/></td>
+                    <td><input type="text" name="onGround" value="${flight.onGround?c}"/></td>
+                    <td><input type="text" name="callsign" value="${flight.callsign}"/></td>
+                    <td><input type="submit" value="Save"/></td>
+                </form>
+        </tr>
+    </#list>
+    </table>
 
-</div>  
+</div>
+
+<div id="header">
+    <H2>
+        Flights Online
+    </H2>
+</div>
 </body>
-</html>  
+</html>
+
+<link href="/resources/css/main.css" rel="stylesheet" />
