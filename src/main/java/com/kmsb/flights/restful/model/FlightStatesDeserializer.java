@@ -9,6 +9,7 @@ import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 /**
  * Custom JSON deserializer for OpenSkyStates retrieved from the API.
@@ -23,7 +24,7 @@ public class FlightStatesDeserializer extends StdDeserializer<FlightStates> {
         super(FlightStates.class);
     }
 
-    private Collection<StateVector> deserializeStates(JsonParser jp) throws IOException {
+    private List<StateVector> deserializeStates(JsonParser jp) throws IOException {
         ArrayList<StateVector> result = new ArrayList<>();
 
         for (JsonToken next = jp.nextToken(); next != null && next != JsonToken.END_ARRAY; next = jp.nextToken()) {

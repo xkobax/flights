@@ -2,12 +2,12 @@ package com.kmsb.flights.restful.model;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
-import java.util.Collection;
+import java.util.List;
 
 @JsonDeserialize(using = FlightStatesDeserializer.class)
 public class FlightStates {
     private int time;
-    private Collection<StateVector> flightStates;
+    private List<StateVector> flightStates;
 
     /**
      * The point in time for which states are stored
@@ -22,12 +22,12 @@ public class FlightStates {
     /**
      * Actual states for this point in time
      */
-    public Collection<StateVector> getStates() {
+    public List<StateVector> getStates() {
         if (flightStates == null || flightStates.isEmpty()) return null;
         return this.flightStates;
     }
 
-    public void setStates(Collection<StateVector> states) {
+    public void setStates(List<StateVector> states) {
         this.flightStates = states;
     }
 }
