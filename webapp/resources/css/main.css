@@ -18,7 +18,7 @@ body, input {
     border-collapse: collapse;
     width: 400px;
     max-width: 100%;
-    font-family: Calibri
+    font-family: Calibri;
 }
 
 .datatable th {

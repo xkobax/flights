@@ -1,4 +1,4 @@
-package com.kmsb.flights.restful.model;
+package com.kmsb.flights.persistence.entity;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 

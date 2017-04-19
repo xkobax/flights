@@ -1,7 +1,7 @@
 package com.kmsb.flights.restful;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.kmsb.flights.restful.model.FlightStates;
+import com.kmsb.flights.persistence.entity.FlightStates;
 
 import java.io.BufferedReader;
 import java.io.IOException;

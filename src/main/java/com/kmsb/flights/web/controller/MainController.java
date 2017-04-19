@@ -1,25 +1,26 @@
 package com.kmsb.flights.web.controller;
 
+import com.kmsb.flights.persistence.service.StateVectorService;
 import com.kmsb.flights.restful.RestConsumer;
-import com.kmsb.flights.restful.model.FlightStates;
-import com.kmsb.flights.restful.model.StateVector;
+import com.kmsb.flights.persistence.entity.FlightStates;
+import com.kmsb.flights.persistence.entity.StateVector;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.servlet.ModelAndView;
-import com.kmsb.flights.web.model.User;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.Locale;
 
 
 @Controller
 public class MainController {
+
+    @Autowired
+    StateVectorService stateVectorService;
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String init(ModelMap model) {
@@ -38,9 +39,7 @@ public class MainController {
     @RequestMapping(value = "/persistFlight", method = RequestMethod.POST)
     public String persistFlights(@ModelAttribute("state") StateVector stateVector){
 
-        //TODO: add hibernate dependency, save simplified vector to DB
-
-        System.out.println("PERSISTED STATE VECTOR" + stateVector.getIcao24());
+        stateVectorService.saveStateVector(stateVector);
 
         return "redirect:/";
     }
