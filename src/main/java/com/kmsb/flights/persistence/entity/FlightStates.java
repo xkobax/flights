@@ -2,10 +2,14 @@ package com.kmsb.flights.persistence.entity;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
+import java.io.Serializable;
 import java.util.List;
 
 @JsonDeserialize(using = FlightStatesDeserializer.class)
-public class FlightStates {
+public class FlightStates implements Serializable {
+
+    private static final long serialVersionUID = 3444079697798922551L;
+
     private int time;
     private List<StateVector> flightStates;
 

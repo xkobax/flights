@@ -2,6 +2,10 @@ package com.kmsb.flights.restful;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kmsb.flights.persistence.entity.FlightStates;
+import com.kmsb.flights.service.RestService;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.stereotype.Repository;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -9,11 +13,12 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class RestConsumer {
+@Repository("restService")
+public class RestServiceImpl implements RestService {
     private static final String openSkyURI = "https://opensky-network.org/api/states/all";
 
-
-    public static FlightStates retrieveFlightStates() {
+    @Cacheable("stateVectors")
+    public FlightStates retrieveFlightStates() {
 
         FlightStates flightStates = null;
 
@@ -36,5 +41,8 @@ public class RestConsumer {
         return flightStates;
     }
 
+    @CacheEvict(value = "stateVectors", allEntries = true)
+    public void refreshAllStateVectors() {
+    }
 
 }

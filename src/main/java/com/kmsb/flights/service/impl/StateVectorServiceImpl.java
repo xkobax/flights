@@ -1,8 +1,8 @@
-package com.kmsb.flights.persistence.service.impl;
+package com.kmsb.flights.service.impl;
 
 import com.kmsb.flights.persistence.dao.StateVectorDAOImpl;
 import com.kmsb.flights.persistence.entity.StateVector;
-import com.kmsb.flights.persistence.service.StateVectorService;
+import com.kmsb.flights.service.StateVectorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -34,7 +34,6 @@ public class StateVectorServiceImpl implements StateVectorService {
         entity.setOriginCountry(stateVector.getOriginCountry());
         entity.setOnGround(stateVector.isOnGround());
         stateVectorDAO.saveStateVector(entity);
-
     }
 
     @Override
@@ -46,4 +45,5 @@ public class StateVectorServiceImpl implements StateVectorService {
     public List findAllStateVectors() {
         return stateVectorDAO.findAllStateVectors();
     }
+
 }

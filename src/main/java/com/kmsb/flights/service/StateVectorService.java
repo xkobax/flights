@@ -1,4 +1,4 @@
-package com.kmsb.flights.persistence.service;
+package com.kmsb.flights.service;
 
 import com.kmsb.flights.persistence.entity.StateVector;
 
