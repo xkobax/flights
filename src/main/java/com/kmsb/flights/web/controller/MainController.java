@@ -7,13 +7,13 @@ import com.kmsb.flights.persistence.entity.StateVector;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Controller
@@ -36,6 +36,64 @@ public class MainController {
         populateModel(model);
         return "currentFlights";
     }
+
+    @RequestMapping(value = "/showByIcao24", method = RequestMethod.GET)
+    public String showByIcao24(@RequestParam("icao24") String param, ModelMap model){
+        populateModel(model);
+        List<StateVector> vectors =
+        restService.retrieveFlightStates().getStates()
+                .stream()
+                .filter(p -> p.getIcao24().equals(param))
+                .collect(Collectors.toList());
+
+        model.remove("flights");
+        model.addAttribute("flights", vectors);
+        return "currentFlights";
+    }
+
+    @RequestMapping(value = "/showByOriginCountry", method = RequestMethod.GET)
+    public String showByOriginCountry(@RequestParam("originCountry") String param, ModelMap model){
+        populateModel(model);
+        List<StateVector> vectors =
+        restService.retrieveFlightStates().getStates()
+                .stream()
+                .filter(p -> p.getOriginCountry().equals(param))
+                .collect(Collectors.toList());
+
+        model.remove("flights");
+        model.addAttribute("flights", vectors);
+        return "currentFlights";
+    }
+
+    @RequestMapping(value = "/showByCallsign", method = RequestMethod.GET)
+    public String showByCallsign(@RequestParam("callsign") String param, ModelMap model){
+        populateModel(model);
+        List<StateVector> vectors =
+        restService.retrieveFlightStates().getStates()
+                .stream()
+                .filter(p -> p.getCallsign().equals(param))
+                .collect(Collectors.toList());
+
+        model.remove("flights");
+        model.addAttribute("flights", vectors);
+        return "currentFlights";
+    }
+
+    @RequestMapping(value = "/showByOnGround", method = RequestMethod.GET)
+    public String showByOnGround(@RequestParam("onGround") String param, ModelMap model){
+        populateModel(model);
+        boolean groundParam = Boolean.valueOf(param);
+        List<StateVector> vectors =
+        restService.retrieveFlightStates().getStates()
+                .stream()
+                .filter(p -> Boolean.valueOf(groundParam).equals(Boolean.valueOf(p.isOnGround())))
+                .collect(Collectors.toList());
+
+        model.remove("flights");
+        model.addAttribute("flights", vectors);
+        return "currentFlights";
+    }
+
     @RequestMapping(value = "/alwaysFreshList", method = RequestMethod.GET)
     public String listRefreshedFlights(ModelMap model){
         restService.refreshAllStateVectors();

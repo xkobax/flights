@@ -22,19 +22,19 @@
             <h5>Select by:</h5>
             <table class="datatable">
                 <tr>
-                    <form name="flightsFromOpenSky" action="showByIcao24" method="post">
+                    <form name="flightsFromOpenSky" action="showByIcao24" method="get">
                         <td><input type="text" name="icao24" value=""/></td>
                         <td><input type="submit" value="Show by Icao24"/></td>
                     </form>
-                    <form name="flightsFromOpenSky" action="showByOriginCountry" method="post">
+                    <form name="flightsFromOpenSky" action="showByOriginCountry" method="get">
                         <td><input type="text" name="originCountry" value=""/></td>
                         <td><input type="submit" value="Show by Origin Country"/></td>
                     </form>
-                    <form name="flightsFromOpenSky" action="showByOnGround" method="post">
+                    <form name="flightsFromOpenSky" action="showByOnGround" method="get">
                         <td><input type="text" name="onGround" value=""/></td>
                         <td><input type="submit" value="Show by On Ground"/></td>
                     </form>
-                    <form name="flightsFromOpenSky" action="showByCallsign" method="post">
+                    <form name="flightsFromOpenSky" action="showByCallsign" method="get">
                         <td><input type="text" name="callsign" value=""/></td>
                         <td><input type="submit" value="Show by Call Sign"/></td>
                     </form>
