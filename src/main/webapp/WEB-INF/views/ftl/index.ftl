@@ -13,12 +13,14 @@
 
 
 <#if !loggedIn>
-    <input type="button" onclick="location.href='/login'" value="Log in">
-<#--SHOULD BE FORM WITH METHOD POST-->
-    <input type="button" onclick="location.href='/logout'" value="Log out">
+    <input type="button" onclick="location.href='/loginPage'" value="Log in">
 <#else>
     <input type="button" onclick="location.href='/list'" value="View Current Flights">
     <input type="button" onclick="location.href='/alwaysFreshList'" value="View Fresh Current Flights">
+<#--SHOULD BE FORM WITH METHOD POST-->
+    <form name="logout" action="logout" method="post">
+        <input type="submit" value="Log Out"/>
+    </form>
 </#if>
 
     <br/>

@@ -5,7 +5,7 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
-@Entity(name="state_vectors")
+@Entity
 @Table(name="state_vectors")
 public class StateVector implements Serializable {
 

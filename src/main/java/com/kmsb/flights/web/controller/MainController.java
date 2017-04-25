@@ -5,11 +5,13 @@ import com.kmsb.flights.service.RestService;
 import com.kmsb.flights.service.StateVectorService;
 import com.kmsb.flights.persistence.entity.FlightStates;
 import com.kmsb.flights.persistence.entity.StateVector;
+import com.kmsb.flights.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -20,16 +22,22 @@ import java.util.stream.Collectors;
 @Controller
 public class MainController {
 
+    public final static String LOGGED_IN = "loggedIn";
+
     @Autowired
     StateVectorService stateVectorService;
 
     @Autowired
     RestService restService;
 
+    @Autowired
+    UserService userService;
+
     @RequestMapping(value = "/", method = RequestMethod.GET)
-    public String home(ModelMap model) {
+    public String home(HttpSession session, ModelMap model) {
         //TODO: check if logged in
-        model.addAttribute("loggedIn", true);
+
+        model.addAttribute(LOGGED_IN, session.getAttribute(LOGGED_IN));
 
         model.addAttribute("flights", stateVectorService.findAllStateVectors());
         return "index";
@@ -41,16 +49,26 @@ public class MainController {
         return "currentFlights";
     }
 
-    @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public String login(@ModelAttribute("user") User user){
-        //TODO: impl login functionality
+    @RequestMapping(value = "/loginPage", method = RequestMethod.GET)
+    public String loginPage(ModelMap model){
+        //TODO: add if statement
+//        model.addAttribute("errorMsg", "There is no user with such credentials");
 
+        return "login";
+    }
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    public String login(HttpSession session, @ModelAttribute("user") User user){
+        //TODO: impl login functionality
+        User userFromDB = userService.findByName(user.getName());
+        if(userFromDB != null) {
+            session.setAttribute(LOGGED_IN, true);
+        }
         return "redirect:/";
     }
     @RequestMapping(value = "/logout", method = RequestMethod.POST)
-    public String logout(@ModelAttribute("user") User user){
-        //TODO: impl logou functionality
-
+    public String logout(HttpSession session, @ModelAttribute("user") User user){
+        session.setAttribute(LOGGED_IN, false);
+        //TODO: impl logout functionality
         return "redirect:/";
     }
 

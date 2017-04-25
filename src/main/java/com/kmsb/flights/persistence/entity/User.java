@@ -4,7 +4,7 @@ package com.kmsb.flights.persistence.entity;
 import javax.persistence.*;
 import java.math.BigDecimal;
 
-@Entity(name="users")
+@Entity
 @Table(name="users")
 public class User {
 
