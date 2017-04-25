@@ -11,6 +11,16 @@
 </div>
 <div id="content">
 
+
+<#if !loggedIn>
+    <input type="button" onclick="location.href='/login'" value="Log in">
+<#--SHOULD BE FORM WITH METHOD POST-->
+    <input type="button" onclick="location.href='/logout'" value="Log out">
+<#else>
+    <input type="button" onclick="location.href='/list'" value="View Current Flights">
+    <input type="button" onclick="location.href='/alwaysFreshList'" value="View Fresh Current Flights">
+</#if>
+
     <br/>
     <table class="datatable">
         <tr>
@@ -31,8 +41,6 @@
     </#list>
     </table>
 
-    <input type="button" onclick="location.href='/list'" value="View Current Flights">
-    <input type="button" onclick="location.href='/alwaysFreshList'" value="View Fresh Current Flights">
 
 </div>
 </body>

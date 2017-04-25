@@ -1,5 +1,6 @@
 package com.kmsb.flights.web.controller;
 
+import com.kmsb.flights.persistence.entity.User;
 import com.kmsb.flights.service.RestService;
 import com.kmsb.flights.service.StateVectorService;
 import com.kmsb.flights.persistence.entity.FlightStates;
@@ -27,6 +28,9 @@ public class MainController {
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String home(ModelMap model) {
+        //TODO: check if logged in
+        model.addAttribute("loggedIn", true);
+
         model.addAttribute("flights", stateVectorService.findAllStateVectors());
         return "index";
     }
@@ -35,6 +39,43 @@ public class MainController {
     public String listFlights(ModelMap model){
         populateModel(model);
         return "currentFlights";
+    }
+
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    public String login(@ModelAttribute("user") User user){
+        //TODO: impl login functionality
+
+        return "redirect:/";
+    }
+    @RequestMapping(value = "/logout", method = RequestMethod.POST)
+    public String logout(@ModelAttribute("user") User user){
+        //TODO: impl logou functionality
+
+        return "redirect:/";
+    }
+
+    @RequestMapping(value = "/alwaysFreshList", method = RequestMethod.GET)
+    public String listRefreshedFlights(ModelMap model){
+        restService.refreshAllStateVectors();
+        populateModel(model);
+        return "currentFlights";
+    }
+    @RequestMapping(value = "/persistFlight", method = RequestMethod.POST)
+    public String persistFlights(@ModelAttribute("state") StateVector stateVector){
+        stateVectorService.saveStateVector(stateVector);
+        return "redirect:/list";
+    }
+
+    private void populateModel(ModelMap model){
+        FlightStates flightStates = restService.retrieveFlightStates();
+        if (flightStates != null) {
+            LocalDateTime date =
+                    LocalDateTime.ofInstant(Instant.ofEpochSecond(flightStates.getTime()), ZoneId.systemDefault());
+            model.addAttribute("time", date.toString());
+            model.addAttribute("number", flightStates.getStates().size());
+            int cutOff = flightStates.getStates().size() > 40 ? 39 : flightStates.getStates().size();
+            model.addAttribute("flights", flightStates.getStates().subList(0,cutOff));
+        }
     }
 
     @RequestMapping(value = "/showByIcao24", method = RequestMethod.GET)
@@ -92,30 +133,5 @@ public class MainController {
         model.remove("flights");
         model.addAttribute("flights", vectors);
         return "currentFlights";
-    }
-
-    @RequestMapping(value = "/alwaysFreshList", method = RequestMethod.GET)
-    public String listRefreshedFlights(ModelMap model){
-        restService.refreshAllStateVectors();
-        populateModel(model);
-        return "currentFlights";
-    }
-
-    @RequestMapping(value = "/persistFlight", method = RequestMethod.POST)
-    public String persistFlights(@ModelAttribute("state") StateVector stateVector){
-        stateVectorService.saveStateVector(stateVector);
-        return "redirect:/list";
-    }
-
-    private void populateModel(ModelMap model){
-        FlightStates flightStates = restService.retrieveFlightStates();
-        if (flightStates != null) {
-            LocalDateTime date =
-                    LocalDateTime.ofInstant(Instant.ofEpochSecond(flightStates.getTime()), ZoneId.systemDefault());
-            model.addAttribute("time", date.toString());
-            model.addAttribute("number", flightStates.getStates().size());
-            int cutOff = flightStates.getStates().size() > 40 ? 39 : flightStates.getStates().size();
-            model.addAttribute("flights", flightStates.getStates().subList(0,cutOff));
-        }
     }
 }

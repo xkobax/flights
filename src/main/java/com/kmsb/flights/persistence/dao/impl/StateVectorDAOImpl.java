@@ -1,5 +1,7 @@
-package com.kmsb.flights.persistence.dao;
+package com.kmsb.flights.persistence.dao.impl;
 
+import com.kmsb.flights.persistence.dao.AbstractDAO;
+import com.kmsb.flights.persistence.dao.StateVectorDAO;
 import com.kmsb.flights.persistence.entity.StateVector;
 import org.hibernate.Criteria;
 import org.springframework.stereotype.Repository;

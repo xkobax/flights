@@ -59,3 +59,7 @@ fieldset {
 legend {
     font-weight: bold;
 }
+
+.red {
+    color: red;
+}

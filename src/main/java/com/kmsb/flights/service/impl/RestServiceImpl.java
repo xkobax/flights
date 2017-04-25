@@ -1,4 +1,4 @@
-package com.kmsb.flights.restful;
+package com.kmsb.flights.service.impl;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kmsb.flights.persistence.entity.FlightStates;

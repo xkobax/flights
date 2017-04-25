@@ -1,6 +1,6 @@
 package com.kmsb.flights.service.impl;
 
-import com.kmsb.flights.persistence.dao.StateVectorDAOImpl;
+import com.kmsb.flights.persistence.dao.impl.StateVectorDAOImpl;
 import com.kmsb.flights.persistence.entity.StateVector;
 import com.kmsb.flights.service.StateVectorService;
 import org.springframework.beans.factory.annotation.Autowired;
