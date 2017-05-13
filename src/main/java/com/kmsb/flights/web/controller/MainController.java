@@ -37,6 +37,9 @@ public class MainController {
     public String home(HttpSession session, ModelMap model) {
         //TODO: check if logged in
 
+        if (session.getAttribute(LOGGED_IN) == null) {
+            session.setAttribute(LOGGED_IN, false);
+        }
         model.addAttribute(LOGGED_IN, session.getAttribute(LOGGED_IN));
 
         model.addAttribute("flights", stateVectorService.findAllStateVectors());
