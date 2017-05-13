@@ -16,7 +16,7 @@ public class WebConfiguration extends AbstractAnnotationConfigDispatcherServletI
 
     @Override
     protected Class<?>[] getRootConfigClasses() {
-        return null;
+        return new Class[] { SpringSecurityConfig.class };
     }
 
 }
