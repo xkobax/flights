@@ -3,6 +3,7 @@ package com.kmsb.flights.persistence.entity;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.List;
 
 @Entity
 @Table(name="users")
@@ -15,6 +16,10 @@ public class User {
     private String email;
     private String password;
     private String salt;
+
+    @OneToMany(fetch = FetchType.EAGER)
+    @JoinColumn(name="user_id")
+    List<AssignedFlight> assignedFlights;
 
     public BigDecimal getId() {
         return id;
@@ -54,5 +59,13 @@ public class User {
 
     public void setSalt(String salt) {
         this.salt = salt;
+    }
+
+    public List<AssignedFlight> getAssignedFlights() {
+        return assignedFlights;
+    }
+
+    public void setAssignedFlights(List<AssignedFlight> assignedFlights) {
+        this.assignedFlights = assignedFlights;
     }
 }

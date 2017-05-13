@@ -3,6 +3,7 @@ package com.kmsb.flights.persistence.entity;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -36,6 +37,10 @@ public class StateVector implements Serializable {
     private String originCountry;
     private String callsign;
     private boolean onGround;
+
+    @OneToMany(fetch = FetchType.EAGER  )
+    @JoinColumn(name="icao24")
+    List<AssignedFlight> assignedFlights;
 
     public StateVector() {
     }
@@ -187,6 +192,14 @@ public class StateVector implements Serializable {
 
     public void setOriginCountry(String originCountry) {
         this.originCountry = originCountry;
+    }
+
+    public List<AssignedFlight> getAssignedFlights() {
+        return assignedFlights;
+    }
+
+    public void setAssignedFlights(List<AssignedFlight> assignedFlights) {
+        this.assignedFlights = assignedFlights;
     }
 
     @Override
