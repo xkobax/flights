@@ -5,7 +5,7 @@
     <artifactId>flights</artifactId>
     <packaging>war</packaging>
     <version>1.0-SNAPSHOT</version>
-    <name>Spring Freemarker Example</name>
+    <name>Flights</name>
 
     <properties>
         <jdk.version>1.8</jdk.version>
@@ -126,6 +126,12 @@
             <version>2.10.3</version>
         </dependency>
 
+         <!-- iText -->
+        <dependency>
+            <groupId>com.lowagie</groupId>
+            <artifactId>itext</artifactId>
+            <version>2.1.7</version>
+        </dependency>
 
     </dependencies>
 

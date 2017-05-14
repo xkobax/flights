@@ -15,6 +15,7 @@
 <#if !loggedIn>
     <input type="button" onclick="location.href='/loginPage'" value="Log in">
 <#else>
+    <input type="button" onclick="location.href='/pdf'" value="View as PDF">
     <input type="button" onclick="location.href='/list'" value="View Current Flights">
     <input type="button" onclick="location.href='/alwaysFreshList'" value="View Fresh Current Flights">
 <#--SHOULD BE FORM WITH METHOD POST-->

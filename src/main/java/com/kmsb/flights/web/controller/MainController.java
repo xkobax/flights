@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
 import java.time.Instant;
@@ -34,16 +35,20 @@ public class MainController {
     UserService userService;
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
-    public String home(HttpSession session, ModelMap model) {
-        //TODO: check if logged in
-
+    public ModelAndView home(HttpSession session) {
         if (session.getAttribute(LOGGED_IN) == null) {
             session.setAttribute(LOGGED_IN, false);
         }
-        model.addAttribute(LOGGED_IN, session.getAttribute(LOGGED_IN));
+        List flights = stateVectorService.findAllStateVectors();
+        ModelAndView model = new ModelAndView("index", "flights", flights);
+        return model;
+    }
 
-        model.addAttribute("flights", stateVectorService.findAllStateVectors());
-        return "index";
+    @RequestMapping(value = "/pdf", method = RequestMethod.GET)
+    public ModelAndView downloadPdf() {
+        List flights = stateVectorService.findAllStateVectors();
+        ModelAndView model = new ModelAndView("pdfView", "flights", flights);
+        return model;
     }
 
     @RequestMapping(value = "/list", method = RequestMethod.GET)
