@@ -17,7 +17,7 @@ public class User {
     private String password;
     private String salt;
 
-    @OneToMany(fetch = FetchType.EAGER)
+    @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name="user_id")
     List<AssignedFlight> assignedFlights;
 

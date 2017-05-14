@@ -17,7 +17,6 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserDAO userDAO;
 
-
     @Override
     public List<User> findAll() {
         return userDAO.findAll();

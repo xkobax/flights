@@ -38,7 +38,7 @@ public class StateVector implements Serializable {
     private String callsign;
     private boolean onGround;
 
-    @OneToMany(fetch = FetchType.EAGER  )
+    @OneToMany(fetch = FetchType.LAZY  )
     @JoinColumn(name="icao24")
     List<AssignedFlight> assignedFlights;
 

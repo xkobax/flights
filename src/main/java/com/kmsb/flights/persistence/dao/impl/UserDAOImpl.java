@@ -5,7 +5,7 @@ import com.kmsb.flights.persistence.dao.UserDAO;
 import com.kmsb.flights.persistence.entity.User;
 import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
-import org.hibernate.query.Query;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -26,11 +26,9 @@ public class UserDAOImpl extends AbstractDAO<BigDecimal, User> implements UserDA
 
     @Override
     public User findByName(String name) {
-        Query query= sessionFactory.getCurrentSession().
-                createQuery("from User where name=:name");
-        query.setParameter("name", name);
-        query.setMaxResults(1);
-        return (User) query.uniqueResult();
+        Criteria criteria = createEntityCriteria();
+        criteria.add(Restrictions.eq("name", name));
+        return (User) criteria.uniqueResult();
     }
 
     @Override

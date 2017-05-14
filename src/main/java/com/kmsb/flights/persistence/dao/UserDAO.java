@@ -18,6 +18,4 @@ public interface UserDAO  {
     void deleteUser(User user);
 
 
-
-
 }
