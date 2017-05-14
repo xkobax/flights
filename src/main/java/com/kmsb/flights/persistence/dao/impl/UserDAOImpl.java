@@ -4,6 +4,7 @@ import com.kmsb.flights.persistence.dao.AbstractDAO;
 import com.kmsb.flights.persistence.dao.UserDAO;
 import com.kmsb.flights.persistence.entity.User;
 import org.hibernate.Criteria;
+import org.hibernate.FetchMode;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +29,7 @@ public class UserDAOImpl extends AbstractDAO<BigDecimal, User> implements UserDA
     public User findByName(String name) {
         Criteria criteria = createEntityCriteria();
         criteria.add(Restrictions.eq("name", name));
+        criteria.setFetchMode("assignedFlights", FetchMode.SELECT);
         return (User) criteria.uniqueResult();
     }
 
