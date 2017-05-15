@@ -44,8 +44,8 @@ public class MainController {
         return model;
     }
 
-    @RequestMapping(value = "/pdf", method = RequestMethod.GET)
-    public ModelAndView downloadPdf() {
+    @RequestMapping(value = "/pdf/{type}", method = RequestMethod.GET)
+    public ModelAndView downloadPdf(@PathVariable("type") String type) {
         List flights = stateVectorService.findAllStateVectors();
         ModelAndView model = new ModelAndView("pdfView", "flights", flights);
         return model;

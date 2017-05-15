@@ -56,8 +56,9 @@ public class PdfView extends AbstractPdfView {
         }
 
         document.add(table);
-        //change inline to attachment to save file
-        response.setHeader("Content-Disposition", "inline; filename=flights.pdf");
+        if (model.get("type").equals("download")) {
+            response.setHeader("Content-Disposition", "attachment; filename=flights.pdf");
+        }
 
     }
 }
