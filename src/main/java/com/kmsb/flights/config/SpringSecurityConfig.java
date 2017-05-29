@@ -22,7 +22,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .antMatchers("/home", "/pdf/*").access("hasRole('USER')")
-                .antMatchers("/list", "/alwaysFreshList", "/showBy*").access("hasRole('ADMIN')")
+                .antMatchers("/list", "/alwaysFreshList", "/showBy*").access("hasRole('USER')")
                 .and()
                 .formLogin().loginPage("/login")
                 .defaultSuccessUrl("/home")
