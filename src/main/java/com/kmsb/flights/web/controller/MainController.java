@@ -35,13 +35,51 @@ public class MainController {
     UserService userService;
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
-    public ModelAndView home(HttpSession session) {
-        if (session.getAttribute(LOGGED_IN) == null) {
-            session.setAttribute(LOGGED_IN, false);
+    public String index() {
+        return "index";
+    }
+
+
+    @RequestMapping(value = "/login", method = RequestMethod.GET)
+    public ModelAndView loginPage(@RequestParam(value = "error", required = false) String error,
+                                  @RequestParam(value = "logout", required = false) String logout) {
+
+        ModelAndView model = new ModelAndView();
+        if (error != null) {
+            model.addObject("error", "Invalid Credentials provided.");
         }
-        List flights = stateVectorService.findAllStateVectors();
-        ModelAndView model = new ModelAndView("index", "flights", flights);
+        if (logout != null) {
+            model.addObject("message", "Logged out successfully.");
+        }
+        model.setViewName("login");
         return model;
+    }
+
+    @RequestMapping(value = "/home", method = RequestMethod.GET)
+    public ModelAndView home() {
+        List flights = stateVectorService.findAllStateVectors();
+        ModelAndView model = new ModelAndView("home", "flights", flights);
+        return model;
+    }
+
+    @RequestMapping(value = "/list", method = RequestMethod.GET)
+    public String listFlights(ModelMap model) {
+        populateModel(model);
+        return "currentFlights";
+    }
+
+    @RequestMapping(value = "/alwaysFreshList", method = RequestMethod.GET)
+    public String listRefreshedFlights(ModelMap model) {
+        restService.refreshAllStateVectors();
+        populateModel(model);
+        return "currentFlights";
+    }
+
+    @RequestMapping(value = "/persistFlight", method = RequestMethod.POST)
+    public String persistFlights(@ModelAttribute("state") StateVector stateVector) {
+        stateVectorService.saveStateVector(stateVector);
+        return "redirect:/list";
+
     }
 
     @RequestMapping(value = "/pdf/{type}", method = RequestMethod.GET)
@@ -51,48 +89,7 @@ public class MainController {
         return model;
     }
 
-    @RequestMapping(value = "/list", method = RequestMethod.GET)
-    public String listFlights(ModelMap model){
-        populateModel(model);
-        return "currentFlights";
-    }
-
-    @RequestMapping(value = "/loginPage", method = RequestMethod.GET)
-    public String loginPage(ModelMap model){
-        //TODO: add if statement
-//        model.addAttribute("errorMsg", "There is no user with such credentials");
-
-        return "login";
-    }
-    @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public String login(HttpSession session, @ModelAttribute("user") User user){
-        //TODO: impl login functionality
-        User userFromDB = userService.findByName(user.getName());
-        if(userFromDB != null) {
-            session.setAttribute(LOGGED_IN, true);
-        }
-        return "redirect:/";
-    }
-    @RequestMapping(value = "/logout", method = RequestMethod.POST)
-    public String logout(HttpSession session, @ModelAttribute("user") User user){
-        session.setAttribute(LOGGED_IN, false);
-        //TODO: impl logout functionality
-        return "redirect:/";
-    }
-
-    @RequestMapping(value = "/alwaysFreshList", method = RequestMethod.GET)
-    public String listRefreshedFlights(ModelMap model){
-        restService.refreshAllStateVectors();
-        populateModel(model);
-        return "currentFlights";
-    }
-    @RequestMapping(value = "/persistFlight", method = RequestMethod.POST)
-    public String persistFlights(@ModelAttribute("state") StateVector stateVector){
-        stateVectorService.saveStateVector(stateVector);
-        return "redirect:/list";
-    }
-
-    private void populateModel(ModelMap model){
+    private void populateModel(ModelMap model) {
         FlightStates flightStates = restService.retrieveFlightStates();
         if (flightStates != null) {
             LocalDateTime date =
@@ -100,18 +97,18 @@ public class MainController {
             model.addAttribute("time", date.toString());
             model.addAttribute("number", flightStates.getStates().size());
             int cutOff = flightStates.getStates().size() > 40 ? 39 : flightStates.getStates().size();
-            model.addAttribute("flights", flightStates.getStates().subList(0,cutOff));
+            model.addAttribute("flights", flightStates.getStates().subList(0, cutOff));
         }
     }
 
     @RequestMapping(value = "/showByIcao24", method = RequestMethod.GET)
-    public String showByIcao24(@RequestParam("icao24") String param, ModelMap model){
+    public String showByIcao24(@RequestParam("icao24") String param, ModelMap model) {
         populateModel(model);
         List<StateVector> vectors =
-        restService.retrieveFlightStates().getStates()
-                .stream()
-                .filter(p -> p.getIcao24().equals(param))
-                .collect(Collectors.toList());
+                restService.retrieveFlightStates().getStates()
+                        .stream()
+                        .filter(p -> p.getIcao24().equals(param))
+                        .collect(Collectors.toList());
 
         model.remove("flights");
         model.addAttribute("flights", vectors);
@@ -119,13 +116,13 @@ public class MainController {
     }
 
     @RequestMapping(value = "/showByOriginCountry", method = RequestMethod.GET)
-    public String showByOriginCountry(@RequestParam("originCountry") String param, ModelMap model){
+    public String showByOriginCountry(@RequestParam("originCountry") String param, ModelMap model) {
         populateModel(model);
         List<StateVector> vectors =
-        restService.retrieveFlightStates().getStates()
-                .stream()
-                .filter(p -> p.getOriginCountry().equals(param))
-                .collect(Collectors.toList());
+                restService.retrieveFlightStates().getStates()
+                        .stream()
+                        .filter(p -> p.getOriginCountry().equals(param))
+                        .collect(Collectors.toList());
 
         model.remove("flights");
         model.addAttribute("flights", vectors);
@@ -133,13 +130,13 @@ public class MainController {
     }
 
     @RequestMapping(value = "/showByCallsign", method = RequestMethod.GET)
-    public String showByCallsign(@RequestParam("callsign") String param, ModelMap model){
+    public String showByCallsign(@RequestParam("callsign") String param, ModelMap model) {
         populateModel(model);
         List<StateVector> vectors =
-        restService.retrieveFlightStates().getStates()
-                .stream()
-                .filter(p -> p.getCallsign().equals(param))
-                .collect(Collectors.toList());
+                restService.retrieveFlightStates().getStates()
+                        .stream()
+                        .filter(p -> p.getCallsign().equals(param))
+                        .collect(Collectors.toList());
 
         model.remove("flights");
         model.addAttribute("flights", vectors);
@@ -147,14 +144,14 @@ public class MainController {
     }
 
     @RequestMapping(value = "/showByOnGround", method = RequestMethod.GET)
-    public String showByOnGround(@RequestParam("onGround") String param, ModelMap model){
+    public String showByOnGround(@RequestParam("onGround") String param, ModelMap model) {
         populateModel(model);
         boolean groundParam = Boolean.valueOf(param);
         List<StateVector> vectors =
-        restService.retrieveFlightStates().getStates()
-                .stream()
-                .filter(p -> Boolean.valueOf(groundParam).equals(Boolean.valueOf(p.isOnGround())))
-                .collect(Collectors.toList());
+                restService.retrieveFlightStates().getStates()
+                        .stream()
+                        .filter(p -> Boolean.valueOf(groundParam).equals(Boolean.valueOf(p.isOnGround())))
+                        .collect(Collectors.toList());
 
         model.remove("flights");
         model.addAttribute("flights", vectors);

@@ -14,21 +14,22 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     public UserDetailsService userDetailsService() {
         InMemoryUserDetailsManager manager = new InMemoryUserDetailsManager();
-        manager.createUser(User.withUsername("user").password("password").roles("USER").build());
+        manager.createUser(User.withUsername("kozak").password("kozak").roles("USER").build());
         return manager;
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http
-                .authorizeRequests()
-                .anyRequest().authenticated()
+        http.authorizeRequests()
+                .antMatchers("/home", "/pdf/*").access("hasRole('USER')")
+                .antMatchers("/list", "/alwaysFreshList", "/showBy*").access("hasRole('ADMIN')")
                 .and()
-                .httpBasic()
+                .formLogin().loginPage("/login")
+                .defaultSuccessUrl("/home")
+                .failureUrl("/login?error")
+                .usernameParameter("username").passwordParameter("password")
                 .and()
-                .formLogin()
-                .loginPage("/loginPage")
-                .permitAll();
+                .logout().logoutSuccessUrl("/login?logout");
     }
 
 }

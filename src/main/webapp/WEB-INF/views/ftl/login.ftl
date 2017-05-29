@@ -12,14 +12,18 @@
 <div id="content">
 
 <#--ERROR MESSAGE-->
-<#if errorMsg??>
-<div class="red" ><h3>${errorMsg}</h3></div>
+<#if error??>
+<div class="red" ><h3>${error}</h3></div>
+</#if>
+<#if message??>
+<div class="red" ><h3>${message}</h3></div>
 </#if>
 
 <h5>Please login</h5>
     <form name="login" action="login" method="post">
-        <input type="text" name="name" value=""/>
+        <input type="text" name="username" value=""/>
         <input type="text" name="password" value=""/>
+        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
         <input type="submit" value="Log in"/>
     </form>
 
